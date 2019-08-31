@@ -6,7 +6,12 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/jspf/header.jspf"%>
-    <div>To jest treść strony</div>
+    <div>Lista użytkowników</div>
+    <ul>
+        <c:forEach var="user" items="${users}">
+            <li>${user.id},${user.username},${user.email},${user.password}</li>
+        </c:forEach>
+    </ul>
 <%@ include file="/WEB-INF/views/jspf/footer.jspf"%>
 </body>
 </html>
