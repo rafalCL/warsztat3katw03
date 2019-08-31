@@ -8,19 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
 
-@WebServlet("/")
+@WebServlet("/home")
 public class Home extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            final Connection connection = DbUtil.getConnection();
-            resp.getWriter().println("test ok!");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            resp.getWriter().println("test failed!");
-        }
+        getServletContext().getRequestDispatcher("/WEB-INF/views/home.jsp")
+                .forward(req, resp);
     }
 }
