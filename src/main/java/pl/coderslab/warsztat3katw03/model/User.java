@@ -1,8 +1,16 @@
 package pl.coderslab.warsztat3katw03.model;
 
 import org.mindrot.jbcrypt.BCrypt;
+import pl.coderslab.warsztat3katw03.db.DbUtil;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class User {
+    private final static String FIND_BY_ID_QUERY = "SELECT id, username, email, password FROM users WHERE id=?";
+
     private int id;
     private String username;
     private String email;
@@ -51,5 +59,35 @@ public class User {
 
     public boolean isPasswordCorrect(String password){
         return BCrypt.checkpw(password, getPassword());
+    }
+
+    public static User findById(int idToFindBy){
+        try(Connection connection = DbUtil.getConnection()) {
+            final PreparedStatement ps = connection.prepareStatement(
+                    FIND_BY_ID_QUERY);
+
+            ps.setInt(1,idToFindBy);
+
+            final ResultSet rs = ps.executeQuery();
+
+            if (rs.next()){
+                int id = rs.getInt(1);
+                String username = rs.getString(2);
+                String email = rs.getString(3);
+                String password = rs.getString(4);
+
+                User u = new User();
+                u.setId(id);
+                u.setUsername(username);
+                u.setEmail(email);
+                u.setPassword(password);
+
+                return u;
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

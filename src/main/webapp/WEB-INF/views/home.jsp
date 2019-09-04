@@ -8,8 +8,8 @@
 <%@ include file="/WEB-INF/views/jspf/header.jspf"%>
     <div>Lista użytkowników</div>
     <ul>
-        <c:forEach var="user" items="${users}">
-            <li>${user.id},${user.username},${user.email},${user.password}</li>
+        <c:forEach var="sol" items="${solutionList}">
+            <li>${sol.title},${sol.authorName},${sol.dateStr}</li>
         </c:forEach>
     </ul>
 <%@ include file="/WEB-INF/views/jspf/footer.jspf"%>
